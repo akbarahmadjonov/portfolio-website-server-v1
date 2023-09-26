@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-export interface Education extends Document {
+export interface Portfolio extends Document {
   image: string;
   place: string;
   date: string;
@@ -9,7 +9,7 @@ export interface Education extends Document {
   summary: string;
 }
 
-const EducationSchema: Schema = new Schema({
+const PortfolioSchema: Schema = new Schema({
   image: { type: String, required: true },
   place: { type: String, required: true },
   date: { type: String, required: true },
@@ -18,6 +18,6 @@ const EducationSchema: Schema = new Schema({
   summary: { type: String, required: true },
 });
 
-const EducationModel = mongoose.model<Education>("Education", EducationSchema);
+const PortfolioModel = mongoose.model<Portfolio>("Portfolio", PortfolioSchema);
 
-export default EducationModel;
+export default PortfolioModel;

@@ -1,21 +1,21 @@
 import { Request, Response } from "express";
-import EducationModel, { Education } from "../models/education.model";
+import PortfolioModel, { Portfolio } from "../models/portfolio.model";
 import { v4 as uuidv4 } from "uuid";
 import fileUpload, { UploadedFile } from "express-fileupload";
 
-// GET all education records
-export const getAllEducation = async (req: Request, res: Response) => {
+// GET all portfolio records
+export const getAllPortfolio = async (req: Request, res: Response) => {
   try {
-    // GET all education records from the database
-    const education = await EducationModel.find();
-    return res.status(200).json(education);
+    // GET all portfolio records from the database
+    const portfolio = await PortfolioModel.find();
+    return res.status(200).json(portfolio);
   } catch (error) {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
 
-// POST a new education record with image upload
-export const createEducation = async (req: Request, res: Response) => {
+// POST a new portfolio record with image upload
+export const createPortfolio = async (req: Request, res: Response) => {
   try {
     const { place, date, linkWeb, website, summary } = req.body;
 
@@ -28,7 +28,7 @@ export const createEducation = async (req: Request, res: Response) => {
     // Generate a unique filename using uuid
     const imageName = `${uuidv4()}.${imageFile.mimetype.split("/")[1]}`;
 
-    // Specify the directory where you want to store education images
+    // Specify the directory where you want to store portfolio images
     const imageDir = `${process.cwd()}/uploads/`; // Adjust the path as needed
 
     // Move the image file to the specified directory
@@ -38,8 +38,8 @@ export const createEducation = async (req: Request, res: Response) => {
         return res.status(500).json({ error: "Internal Server Error" });
       }
 
-      // Create a new education document with the image filename
-      const newEducation: Education = new EducationModel({
+      // Create a new portfolio document with the image filename
+      const newPortfolio: Portfolio = new PortfolioModel({
         image: `${imageName}`, // Store the image path in the database
         place,
         date,
@@ -48,13 +48,13 @@ export const createEducation = async (req: Request, res: Response) => {
         summary,
       });
 
-      // Save the new education document to the database
-      await newEducation.save();
+      // Save the new portfolio document to the database
+      await newPortfolio.save();
 
-      return res.status(201).json(newEducation); // Return the newly created education document
+      return res.status(201).json(newPortfolio); // Return the newly created portfolio document
     });
   } catch (error) {
-    console.error("Error creating education record:", error);
+    console.error("Error creating portfolio record:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };

@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-export interface Education extends Document {
+export interface Experience extends Document {
   image: string;
   place: string;
   date: string;
@@ -9,7 +9,7 @@ export interface Education extends Document {
   summary: string;
 }
 
-const EducationSchema: Schema = new Schema({
+const ExperienceSchema: Schema = new Schema({
   image: { type: String, required: true },
   place: { type: String, required: true },
   date: { type: String, required: true },
@@ -18,6 +18,9 @@ const EducationSchema: Schema = new Schema({
   summary: { type: String, required: true },
 });
 
-const EducationModel = mongoose.model<Education>("Education", EducationSchema);
+const ExperienceModel = mongoose.model<Experience>(
+  "Experience",
+  ExperienceSchema
+);
 
-export default EducationModel;
+export default ExperienceModel;
