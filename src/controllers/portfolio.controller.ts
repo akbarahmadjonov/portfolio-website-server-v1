@@ -17,7 +17,7 @@ export const getAllPortfolio = async (req: Request, res: Response) => {
 // POST a new portfolio record with image upload
 export const createPortfolio = async (req: Request, res: Response) => {
   try {
-    const { place, date, linkWeb, website, summary } = req.body;
+    const { place, date, linkWeb, website, summary, skills } = req.body;
 
     if (!req.files || !req.files.image) {
       return res.status(400).json({ error: "Image file is required" });
@@ -46,6 +46,7 @@ export const createPortfolio = async (req: Request, res: Response) => {
         linkWeb,
         website,
         summary,
+        skills
       });
 
       // Save the new portfolio document to the database
