@@ -3,6 +3,15 @@ import EducationModel, { Education } from "../models/education.model";
 import { v4 as uuidv4 } from "uuid";
 import fileUpload, { UploadedFile } from "express-fileupload";
 
+// CLOUDINARY
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: "dcvfn6wyd",
+  api_key: "839851812962957",
+  api_secret: "KiU0eiI3zFUp4VfRz7fp87wurbk",
+});
+
 // GET all education records
 export const getAllEducation = async (req: Request, res: Response) => {
   try {
@@ -25,34 +34,36 @@ export const createEducation = async (req: Request, res: Response) => {
 
     const imageFile = req.files.image as UploadedFile;
 
-    // Generate a unique filename using uuid
-    const imageName = `${uuidv4()}.${imageFile.mimetype.split("/")[1]}`;
+    // Upload the image to Cloudinary
+    cloudinary.uploader.upload(
+      imageFile.tempFilePath,
+      async (error, result) => {
+        if (error) {
+          console.error("Error uploading image to Cloudinary:", error);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
 
-    // Specify the directory where you want to store education images
-    const imageDir = `${process.cwd()}/uploads/`; // Adjust the path as needed
+        if (!result) {
+          console.error("Cloudinary result is undefined");
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
 
-    // Move the image file to the specified directory
-    imageFile.mv(`${imageDir}${imageName}`, async (err) => {
-      if (err) {
-        console.error("Error saving image:", err);
-        return res.status(500).json({ error: "Internal Server Error" });
+        // Create a new education document with the Cloudinary image URL
+        const newEducation: Education = new EducationModel({
+          image: result.secure_url, // Store the Cloudinary image URL in the database
+          place,
+          date,
+          linkWeb,
+          website,
+          summary,
+        });
+
+        // Save the new education document to the database
+        await newEducation.save();
+
+        return res.status(201).json(newEducation); // Return the newly created education document
       }
-
-      // Create a new education document with the image filename
-      const newEducation: Education = new EducationModel({
-        image: `${imageName}`, // Store the image path in the database
-        place,
-        date,
-        linkWeb,
-        website,
-        summary,
-      });
-
-      // Save the new education document to the database
-      await newEducation.save();
-
-      return res.status(201).json(newEducation); // Return the newly created education document
-    });
+    );
   } catch (error) {
     console.error("Error creating education record:", error);
     return res.status(500).json({ error: "Internal Server Error" });
