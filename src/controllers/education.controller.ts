@@ -2,9 +2,6 @@ import { Request, Response } from "express";
 import EducationModel, { Education } from "../models/education.model";
 import { v4 as uuidv4 } from "uuid";
 import fileUpload, { UploadedFile } from "express-fileupload";
-// import { upload } from "./helpers/cloudinary.ts";
-// const cloudFile = await upload(imageFile.tempFilePath);
-// console.log(cloudFile);
 
 // GET all education records
 export const getAllEducation = async (req: Request, res: Response) => {
