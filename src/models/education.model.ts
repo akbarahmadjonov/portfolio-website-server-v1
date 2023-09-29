@@ -10,12 +10,12 @@ export interface Education extends Document {
 }
 
 const EducationSchema: Schema = new Schema({
-  image: { type: String, required: true },
-  place: { type: String, required: true },
-  date: { type: String, required: true },
-  linkWeb: { type: String, required: true },
-  website: { type: String, required: true },
-  summary: { type: String, required: true },
+  image: { type: String },
+  place: { type: String },
+  date: { type: String },
+  linkWeb: { type: String },
+  website: { type: String },
+  summary: { type: String },
 });
 
 const EducationModel = mongoose.model<Education>("Education", EducationSchema);
