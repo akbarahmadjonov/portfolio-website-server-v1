@@ -11,8 +11,7 @@ const app = express();
 app.use(cors({ origin: "*" }));
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
-// app.use(express.static(process.cwd() + "/uploads"));
-app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use(express.static(process.cwd() + "/uploads"));
 app.use(bodyParser.json());
 
 // CONNECT TO THE DATABASE
