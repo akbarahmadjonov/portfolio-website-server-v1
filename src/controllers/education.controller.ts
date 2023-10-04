@@ -25,11 +25,9 @@ export const createEducation = async (req: Request, res: Response) => {
 
     const imageFile = req.files.image as UploadedFile;
 
-    // Generate a unique filename using uuid
     const imageName = `${uuidv4()}.${imageFile.mimetype.split("/")[1]}`;
 
-    // Specify the directory where you want to store education images
-    const imageDir = `${process.cwd()}/uploads/`; // Adjust the path as needed
+    const imageDir = `${process.cwd()}/uploads/`;
 
     // Move the image file to the specified directory
     imageFile.mv(`${imageDir}${imageName}`, async (err) => {
