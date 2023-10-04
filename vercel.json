@@ -12,6 +12,10 @@
       "dest": "/dist/server.js"
     },
     {
+      "src": "/uploads/(.*)",
+      "dest": "/uploads/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/dist/server.js"
     }
